@@ -12,4 +12,8 @@ class FoodReviewBloc extends ChangeNotifier {
     _foodReviews = await _service.list(id);
     notifyListeners();
   }
+
+  void add(String foodTypeId, FoodReview foodReview) async {
+    _foodReviews = await _service.add(foodTypeId, foodReview);
+  }
 }

@@ -1,9 +1,9 @@
 class FoodReview {
-  final String id;
-  final String name;
-  final double texture;
-  final double flavor;
-  final double sauce;
+  String id;
+  String name;
+  double texture;
+  double flavor;
+  double sauce;
 
 
   FoodReview({this.id, this.name, this.texture, this.flavor, this.sauce});
@@ -28,5 +28,10 @@ class FoodReview {
       "flavor": flavor,
       "sauce": sauce,
     };
+  }
+
+  @override
+  String toString() {
+    return "id: ${this.id}; name: ${this.name}; texture: ${this.texture}; flavor: ${this.flavor}; sauce: ${this.sauce}";
   }
 }
