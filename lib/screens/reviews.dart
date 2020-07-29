@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:food_ranks/blocs/food_review_bloc.dart';
 import 'package:food_ranks/models/food_summary.dart';
 import 'package:food_ranks/screens/partials/food_review_view_builder.dart';
 import 'package:food_ranks/screens/review_form.dart';
+import 'package:food_ranks/services/food_review_service.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:provider/provider.dart';
 
-class Reviews extends StatelessWidget {
+class Reviews extends StatefulWidget {
   final FoodSummary foodSummary;
 
-  Reviews({Key key, this.foodSummary}) : super(key: key);
+  const Reviews({Key key, this.foodSummary}) : super(key: key);
+
+
+  @override
+  ReviewsState createState() {
+    return ReviewsState(this.foodSummary, FoodReviewService());
+  }
+}
+
+class ReviewsState extends State<Reviews> {
+  final FoodSummary foodSummary;
+  final FoodReviewService foodReviewService;
+  ReviewsState(this.foodSummary, this.foodReviewService);
 
   @override
   Widget build(BuildContext context) {
-    final foodReviewBloc = Provider.of<FoodReviewBloc>(context);
-    foodReviewBloc.list(this.foodSummary.id);
     return Scaffold(
       appBar: AppBar(title: Text("FoodRanks"),),
-      body: Container(child: FoodReviewViewBuilder.buildResults(foodReviewBloc)),
+      body: Container(child: FutureBuilder(
+          future: foodReviewService.list(foodSummary.id),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return FoodReviewViewBuilder.buildResults(snapshot.data);
+            } else{
+              return Center(
+                child: Loading(indicator: BallPulseIndicator(), size: 80.0,color: Colors.pink),
+              );
+            }
+          }
+      ),
+      ),
       floatingActionButton: FloatingActionButton(child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(

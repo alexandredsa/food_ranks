@@ -7,7 +7,7 @@ class FoodSummaryService extends FoodService {
 
     Future<List<FoodSummary>> list() async {
         http.Response response = await http.get(
-            "$API_BASE_URL/d7c1e44f-b5d1-4864-a7ae-a5da71aefb86"
+            "$API_BASE_URL/types/"
         );
 
         return decodeEntity(response);

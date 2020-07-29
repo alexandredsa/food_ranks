@@ -8,7 +8,7 @@ class FoodReviewService extends FoodService {
 
     Future<List<FoodReview>> list(String id) async {
         http.Response response = await http.get(
-            "$API_BASE_URL/598fa4a3-9b6f-4f25-94b5-f8d2fbfd137a"
+            "$API_BASE_URL/types/${id}/reviews"
         );
 
         return decodeEntity(response);
@@ -16,14 +16,13 @@ class FoodReviewService extends FoodService {
     }
 
     Future add(String foodTypeId, FoodReview review) async {
-        http.Response response = await http.post(
-            "$API_BASE_URL/598fa4a3-9b6f-4f25-94b5-f8d2fbfd137a",
-            headers: {"Content-Type": "application/json"},
-            body: json.encode(review),
+        await http.post(
+            "$API_BASE_URL/types/${foodTypeId}/reviews/",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: json.encode(review.toJson()),
         );
-
-        return decodeEntity(response);
-
     }
 
     List<FoodReview> decodeEntity(http.Response response) {
@@ -31,15 +30,17 @@ class FoodReviewService extends FoodService {
             throw Exception("Failed to load summaries");
         }
 
-        var decoded = json.decode(response.body);
+        try {
+            var decoded = json.decode(response.body);
+            List<FoodReview> summaries = decoded.map<FoodReview>(
+                    (map) {
+                    return FoodReview.fromJson(map);
+                }
+            ).toList();
 
-        List<FoodReview> summaries = decoded.map<FoodReview>(
-                (map){
-                return FoodReview.fromJson(map);
-            }
-        ).toList();
-
-        return summaries;
-
+            return summaries;
+        }   catch(e) {
+            return List<FoodReview>();
+        }
     }
 }

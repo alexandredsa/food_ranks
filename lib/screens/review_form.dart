@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:food_ranks/blocs/food_review_bloc.dart';
 import 'package:food_ranks/models/food_review.dart';
 import 'package:food_ranks/models/food_summary.dart';
+import 'package:food_ranks/services/food_review_service.dart';
 import 'package:provider/provider.dart';
 
 class ReviewForm extends StatefulWidget {
   final FoodSummary foodSummary;
-
   const ReviewForm({Key key, this.foodSummary}) : super(key: key);
   @override
   ReviewFormState createState() {
-    return ReviewFormState(foodSummary);
+    return ReviewFormState(foodSummary, FoodReviewService());
   }
 }
 // Create a corresponding State class. This class holds data related to the form.
 class ReviewFormState extends State<ReviewForm> {
   final FoodSummary foodSummary;
+  final FoodReviewService foodReviewService;
+
   FoodReview foodReview = FoodReview();
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
-  ReviewFormState(this.foodSummary);
+  ReviewFormState(this.foodSummary, this.foodReviewService);
   String _validateValue(value) {
     if(value.isEmpty) {
       return 'Campo obrigatório!';
@@ -42,7 +41,6 @@ class ReviewFormState extends State<ReviewForm> {
 
   @override
   Widget build(BuildContext context) {
-    final foodReviewBloc = Provider.of<FoodReviewBloc>(context);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(title: Text("FoodRanks"),),
@@ -60,7 +58,7 @@ class ReviewFormState extends State<ReviewForm> {
                   labelText: 'Restaurante',
                 ),
                 onChanged: (value) {
-                  foodReview.flavor = double.parse(value);
+                  foodReview.name = value;
                 },
               ),
               TextFormField(
@@ -106,7 +104,7 @@ class ReviewFormState extends State<ReviewForm> {
                     child: const Text('Enviar'),
                     onPressed: () {
                       if(_formKey.currentState.validate()) {
-                        foodReviewBloc.add(foodSummary.id, foodReview);
+                        this.foodReviewService.add(foodSummary.id, foodReview);
                         Navigator.pop(context);
                       }
                     },

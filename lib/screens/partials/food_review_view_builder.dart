@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_ranks/blocs/food_review_bloc.dart';
-import 'package:food_ranks/blocs/food_summary_bloc.dart';
 import 'package:food_ranks/models/food_review.dart';
 import 'package:food_ranks/models/food_summary.dart';
 
@@ -16,8 +14,7 @@ class FoodReviewViewBuilder {
     );
   }
 
-  static Widget buildResults(FoodReviewBloc bloc) {
-    var foodReviews = bloc.foodReviews;
+  static Widget buildResults(List<FoodReview> foodReviews) {
     return ListView.separated(
       itemCount: foodReviews?.length ?? 0,
       separatorBuilder: (BuildContext context, int index) => Divider(),
