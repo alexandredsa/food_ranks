@@ -32,7 +32,7 @@ class ReviewsState extends State<Reviews> {
           future: foodReviewService.list(foodSummary.id),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              return FoodReviewViewBuilder.buildResults(snapshot.data);
+              return FoodReviewViewBuilder((direction, foodReview) => this.foodReviewService.delete(foodSummary.id, foodReview)).buildResults(snapshot.data);
             } else{
               return Center(
                 child: Loading(indicator: BallPulseIndicator(), size: 80.0,color: Colors.pink),

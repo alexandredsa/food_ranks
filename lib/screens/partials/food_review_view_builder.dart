@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_ranks/models/food_review.dart';
 import 'package:food_ranks/models/food_summary.dart';
+import 'package:food_ranks/screens/partials/item_dismissable.dart';
 
 class FoodReviewViewBuilder {
-  static Widget buildCategoryNoteDisplay(double value, String display, {bool highlight = false}) {
+  final Function onFoodReviewDelete;
+
+  FoodReviewViewBuilder(this.onFoodReviewDelete);
+  Widget buildCategoryNoteDisplay(double value, String display, {bool highlight = false}) {
     return Padding(padding: EdgeInsets.all(5),
         child: Column(
             children: <Widget>[
@@ -14,13 +18,13 @@ class FoodReviewViewBuilder {
     );
   }
 
-  static Widget buildResults(List<FoodReview> foodReviews) {
+  Widget buildResults(List<FoodReview> foodReviews) {
     return ListView.separated(
       itemCount: foodReviews?.length ?? 0,
       separatorBuilder: (BuildContext context, int index) => Divider(),
       itemBuilder: (context, index) {
         final review = foodReviews[index];
-        return Card(
+        return ItemDismissableBuilder(context).build(Card(
             elevation: 3,
             margin: EdgeInsets.only(left: 8, right: 8),
             child: Row(
@@ -45,7 +49,7 @@ class FoodReviewViewBuilder {
                 ),
               ],)
 
-        );
+        ), (direction) => onFoodReviewDelete(direction, review), Key(review.id));
       },
     );
   }

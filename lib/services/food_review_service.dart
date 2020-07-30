@@ -15,6 +15,13 @@ class FoodReviewService extends FoodService {
 
     }
 
+    void delete(String summaryId, FoodReview foodReview) async {
+        await http.delete(
+            "$API_BASE_URL/types/${summaryId}/reviews/${foodReview.id}"
+        );
+    }
+
+
     Future add(String foodTypeId, FoodReview review) async {
         await http.post(
             "$API_BASE_URL/types/${foodTypeId}/reviews/",
@@ -43,4 +50,5 @@ class FoodReviewService extends FoodService {
             return List<FoodReview>();
         }
     }
+
 }
