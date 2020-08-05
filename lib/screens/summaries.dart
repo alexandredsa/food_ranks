@@ -22,7 +22,7 @@ class SummariesState extends State<Summaries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("FoodRanks"),),
+      appBar: AppBar(backgroundColor: Colors.redAccent,title: Text("FoodRanks"),),
       body: Container(child: FutureBuilder(
           future: foodSummaryService.list(),
           builder: (context, snapshot) {
