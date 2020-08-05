@@ -27,7 +27,7 @@ class SummariesState extends State<Summaries> {
           future: foodSummaryService.list(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              return FoodSummaryViewBuilder.buildResults(snapshot.data);
+              return FoodSummaryViewBuilder.buildResults(context, snapshot.data);
             } else{
               return Center(
                 child: Loading(indicator: BallPulseIndicator(), size: 80.0,color: Colors.pink),

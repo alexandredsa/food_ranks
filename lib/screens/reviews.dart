@@ -27,7 +27,7 @@ class ReviewsState extends State<Reviews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("FoodRanks"),),
+      appBar: AppBar(title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: <Widget>[Text(foodSummary.name.toUpperCase()), Image.network(foodSummary.iconUrl, height: 48,)]), backgroundColor: Colors.redAccent,),
       body: Container(child: FutureBuilder(
           future: foodReviewService.list(foodSummary.id),
           builder: (context, snapshot) {
