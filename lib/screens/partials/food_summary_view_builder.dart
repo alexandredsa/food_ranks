@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ranks/models/food_summary.dart';
+import 'package:food_ranks/screens/partials/animated_route_transition.dart';
 import 'package:loading/indicator/ball_beat_indicator.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
@@ -23,7 +24,7 @@ class FoodSummaryViewBuilder {
 
   static Widget buildItem(BuildContext context, FoodSummary summary) {
     return GestureDetector(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Reviews(foodSummary: summary,))),
+        onTap: () => Navigator.push(context, AnimatedRouteTransition.createCurveTween(Reviews(foodSummary: summary,))),
         child: Card(
             color: Colors.amberAccent,
             elevation: 3,
@@ -43,4 +44,5 @@ class FoodSummaryViewBuilder {
         )
     );
   }
+
 }
